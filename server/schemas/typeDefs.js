@@ -1,3 +1,4 @@
+// Setting up file requirements
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
