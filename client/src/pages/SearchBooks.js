@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
-import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
-import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import Auth from "../utils/auth";
+import { searchGoogleBooks } from "../utils/API";
+import { useMutation } from "@apollo/client";
+import { SAVE_BOOK } from "../utils/mutations";
+import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
 
 const SearchBooks = () => {
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
-
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+
+  /* Assigning an array containing the saveBook resolver and an error object,
+  saveBook will use the SAVE_BOOK mutation, and error will log errors that occur
+  */
+  const [saveBook, { error }] = useMutation(SAVE_BOOK);
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -24,17 +30,21 @@ const SearchBooks = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    // If there is no searchInput, stop the function from executing
     if (!searchInput) {
       return false;
     }
 
     try {
+      // Assigning response to search Google books while passing in searchInput
       const response = await searchGoogleBooks(searchInput);
 
+      // If there is no response.ok, throw an error
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
 
+      // Assigning an object which will be defined by the response json object 
       const { items } = await response.json();
 
       const bookData = items.map((book) => ({
@@ -60,16 +70,15 @@ const SearchBooks = () => {
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
+    // If there is no token, stop the function from executing
     if (!token) {
       return false;
     }
 
     try {
-      const response = await saveBook(bookToSave, token);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      const { data } = await saveBook({
+        variables: { bookData: bookToSave },
+      });
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
