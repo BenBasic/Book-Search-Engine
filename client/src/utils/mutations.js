@@ -50,17 +50,19 @@ export const SAVE_BOOK = gql`
 // Exporting module so it can be used in other files
 export const REMOVE_BOOK = gql`
     mutation removeBook($bookId: ID!) {
-        _id
-        username
-        email
-        bookCount
-        savedBooks {
-            bookId
-            authors
-            title
-            description
-            image
-            link
+        removeBook(bookId: $bookId) {
+            _id
+            username
+            email
+            bookCount
+            savedBooks {
+                bookId
+                authors
+                title
+                description
+                image
+                link
+            }
         }
     }
 `;

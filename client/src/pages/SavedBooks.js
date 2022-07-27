@@ -31,12 +31,18 @@ const SavedBooks = () => {
     }
 
     try {
+      console.log("Made it inside try")
+      console.log( { bookId })
+      
       // Makes the data use the removeBook mutation to update data value
       const { data } = await removeBook({
-        variables: { bookId },
+        variables: bookId,
       });
+      console.log("Test")
+      console.log("Data is " + { data });
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
+      console.log("Is this showing up?")
     } catch (err) {
       // If theres an error, log an error
       console.error(err);
