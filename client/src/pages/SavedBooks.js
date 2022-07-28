@@ -36,7 +36,7 @@ const SavedBooks = () => {
       
       // Makes the data use the removeBook mutation to update data value
       const { data } = await removeBook({
-        variables: bookId,
+        variables:{ bookId:bookId }
       });
       console.log("Test")
       console.log("Data is " + { data });
