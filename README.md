@@ -24,7 +24,7 @@
 
   ## Link
 
-https://afternoon-castle-19497.herokuapp.com/
+https://immense-sierra-65983.herokuapp.com/
 
   ## Installation
 
@@ -32,7 +32,7 @@ If you clone this repo and run it on your computer, you can install it doing the
 
 1) Type in npm i to install packages
 2) Type in npm run development
-3) You are now free to use the Book Search Engine in a local environment, by default you would access it by typing http://localhost:3000/ into your browser. Alternatively, you can just try it without downloading with this link: 
+3) You are now free to use the Book Search Engine in a local environment, by default you would access it by typing http://localhost:3000/ into your browser. Alternatively, you can just try it without downloading with this link: https://immense-sierra-65983.herokuapp.com/
 
   
 ## License
